@@ -1,11 +1,12 @@
 # Utilizar una imagen base de Node.js
 FROM node:18
-
 # Establecer el directorio de trabajo en el contenedor
 WORKDIR /usr/src/app
 
 # Copiar package.json y package-lock.json al directorio de trabajo
 COPY package*.json .
+COPY src/config/db.config.js src/config/db.config.js
+
 
 
 # Instalar las dependencias del proyecto
