@@ -13,7 +13,7 @@ const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 
-const allowedOrigins = ['http://localhost:4200', 'https://videogames-3ce93.web.app'];
+const allowedOrigins = ['http://localhost:4200', 'http://localhost','https://videogames-3ce93.web.app'];
 app.use(cors({
     origin: function(origin, callback) {
         if (!origin) return callback(null, true);
