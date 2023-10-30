@@ -11,7 +11,8 @@ COPY src/config/db.config.js src/config/db.config.js
 
 # Instalar las dependencias del proyecto
 RUN npm install
-RUN npm install bcrypt
+RUN npm rebuild bcrypt --build-from-source
+
 
 # Copiar el resto de los archivos de tu aplicación al contenedor
 COPY . .
