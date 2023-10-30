@@ -1,1 +1,1 @@
-web: node src/tuArchivoPrincipal.js
+web: node src/app.js
