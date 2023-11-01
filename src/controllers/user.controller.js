@@ -1,6 +1,7 @@
 const User = require('../models/users.model');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY;
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -41,9 +42,15 @@ exports.login = async (req, res) => {
 
     const passwordIsValid = await bcrypt.compare(password, user.password);
     if (!passwordIsValid) {
-        return res.status(401).json({ message: 'invalid password' });
+        return res.status(401).json({ message: 'Invalid password' });
     }
-    
-    return res.status(200).json({ message: 'U ARE IN', user });
-    
-};
+
+    // Genera el JWT
+    const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        SECRET_KEY,
+        { expiresIn: '1h' } // Opcional: establece una duración para el token
+    );
+
+    return res.status(200).json({ message: 'U ARE IN', user, token });
+}
