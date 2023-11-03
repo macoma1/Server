@@ -82,19 +82,19 @@ exports.getMe = async (req, res) => {
 
 exports.addToFavorites = async (req, res) => {
     try {
-        // Aquí, puedes acceder al ID del usuario a través de req.userId si has configurado un middleware de autenticación.
         const userId = req.userId;
-        
-        // Suponiendo que el cuerpo de la solicitud contiene el ID del juego a añadir a los favoritos
         const gameId = req.body.gameId;
+        const imageUrl = req.body.imageUrl;  // Recibe el enlace de la imagen desde el cuerpo de la solicitud
+        
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        // Suponiendo que tu modelo User tiene un campo 'favorites' que es un array
-        if (!user.favoriteGames.includes(gameId)) {
-            user.favoriteGames.push(gameId);
+        // Verifica si el juego ya está en la lista de favoritos
+        const gameExists = user.favoriteGames.some(game => game.gameId === gameId);
+        if (!gameExists) {
+            user.favoriteGames.push({ gameId, imageUrl });
             await user.save();
         }
 
@@ -104,3 +104,4 @@ exports.addToFavorites = async (req, res) => {
         res.status(500).json({ message: 'Server error', error: err.message });
     }
 };
+

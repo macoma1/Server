@@ -5,6 +5,7 @@ const connectDB = require('./config/db.config');
 const userRoutes = require('./routes/user.routes');
 const errorMiddleware = require('./middlewares/error.middleware');
 const cors = require('cors');
+const commentRoutes = require('./routes/comments.routes');
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.use(cors({
 
 connectDB();
 
+app.use(commentRoutes);
 app.use(userRoutes);
 
 

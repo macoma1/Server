@@ -23,7 +23,8 @@ const userSchema = new Schema({
         trim: true
     },
     favoriteGames: [{
-        type: Number,
+        gameId: Number,
+        imageUrl: String
     }],
     birthdate: {
         type: Date
