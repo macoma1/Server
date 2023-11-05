@@ -9,6 +9,7 @@ router.post('/login', userController.login);
 // Solo proteger la ruta GET '/users/me'
 router.get('/users/me', verifyJWT, userController.getMe);
 router.post('/users/me/favorites', verifyJWT, userController.addToFavorites);
+router.delete('/users/me/favorites/:gameId', verifyJWT, userController.removeFromFavorites);
 router.get('/users/:id', userController.getUser);
 
 
