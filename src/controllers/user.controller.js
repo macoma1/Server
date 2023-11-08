@@ -55,11 +55,10 @@ exports.login = async (req, res) => {
     return res.status(401).json({ message: "Invalid password" });
   }
 
-  // Genera el JWT
   const token = jwt.sign(
     { userId: user._id, email: user.email },
     SECRET_KEY,
-    { expiresIn: "1h" } // Opcional: establece una duración para el token
+    { expiresIn: "1h" }
   );
 
   return res.status(200).json({ message: "U ARE IN", user, token });
@@ -67,7 +66,7 @@ exports.login = async (req, res) => {
 
 exports.getMe = async (req, res) => {
   try {
-    const user = await User.findById(req.userId).select("-password"); // Excluye la contraseña al enviar datos del usuario
+    const user = await User.findById(req.userId).select("-password"); 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -81,19 +80,20 @@ exports.addToFavorites = async (req, res) => {
   try {
     const userId = req.userId;
     const gameId = req.body.gameId;
-    const imageUrl = req.body.imageUrl; // Recibe el enlace de la imagen desde el cuerpo de la solicitud
-
+    const name = req.body.name;
+    const imageUrl = req.body.imageUrl;
+    const genres = req.body.genres;
+    
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Verifica si el juego ya está en la lista de favoritos
     const gameExists = user.favoriteGames.some(
       (game) => game.gameId === gameId
     );
     if (!gameExists) {
-      user.favoriteGames.push({ gameId, imageUrl });
+      user.favoriteGames.push({ gameId, imageUrl, genres, name});
       await user.save();
     }
 
@@ -106,7 +106,6 @@ exports.addToFavorites = async (req, res) => {
 exports.removeFromFavorites = async (req, res) => {
   try {
     const userId = req.userId;
-    // Obtener gameId de los parámetros de la ruta en lugar del cuerpo de la solicitud
     const gameId = parseInt(req.params.gameId);
 
     const user = await User.findById(userId);

@@ -24,7 +24,9 @@ const userSchema = new Schema({
     },
     favoriteGames: [{
         gameId: Number,
-        imageUrl: String
+        name: String,
+        imageUrl: String,
+        genres: [String]
     }],
     birthdate: {
         type: Date

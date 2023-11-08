@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db.config');
 const userRoutes = require('./routes/user.routes');
-const errorMiddleware = require('./middlewares/error.middleware');
 const cors = require('cors');
 const commentRoutes = require('./routes/comments.routes');
 
@@ -14,7 +13,7 @@ const PORT = process.env.PORT;
 
 app.use(bodyParser.json());
 
-const allowedOrigins = ['http://localhost:4200', 'http://localhost','https://videogames-3ce93.web.app'];
+const allowedOrigins = process.env.allowedOrigins;
 app.use(cors({
     origin: function(origin, callback) {
         if (!origin) return callback(null, true);
