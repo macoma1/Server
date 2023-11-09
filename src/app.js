@@ -14,17 +14,14 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 
 const allowedOrigins = "https://videogames-3ce93.web.app";
+
 app.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
         callback(null, true);
       } else {
-        callback(
-          new Error(
-            "La política de CORS para este sitio no permite acceso desde el origen especificado."
-          )
-        );
+        callback(new Error("CORS"));
       }
     },
   })
